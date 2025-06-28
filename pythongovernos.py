@@ -64,7 +64,8 @@ def expand_trimestre_para_meses(s_q: pd.Series) -> pd.Series:
     """Replica valor trimestral para os três meses do trimestre."""
     rep = {}
     for d, v in s_q.items():
-        mes_inicial = {1: 1, 4: 4, 7: 7, 10: 10}[d.month]
+        # calcula o primeiro mês do trimestre de forma genérica
+        mes_inicial = ((d.month - 1) // 3) * 3 + 1
         for m in range(mes_inicial, mes_inicial + 3):
             rep[d.replace(month=m, day=1)] = v
     return pd.Series(rep, dtype="float64").sort_index()
